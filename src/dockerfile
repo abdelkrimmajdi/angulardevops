@@ -1,15 +1,15 @@
 # Étape 1: Utilisation de Node.js pour builder l'application Angular
 FROM node:16 AS build
 
-# Définir le répertoire de travail
+# Définir le répertoire de travail dans le dossier src
 WORKDIR /app
 
 # Copier le package.json et installer les dépendances
-COPY package*.json ./
+COPY src/package*.json ./
 RUN npm install
 
-# Copier le reste des fichiers du projet Angular
-COPY . .
+# Copier le reste des fichiers du projet Angular depuis src
+COPY src/ ./
 
 # Construire l'application Angular (mode production)
 RUN npm run build --prod
