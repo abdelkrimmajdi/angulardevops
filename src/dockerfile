@@ -1,14 +1,27 @@
-# Étape 1: Utilisation de Node.js pour builder l'application Angular
+# Step 1: Use an official Node.js runtime as the base image
 FROM node:16 AS build
 
+# Set the working directory in the container
 WORKDIR /app
 
-# Copier le package.json et installer les dépendances
-COPY angular/src/package*.json ./
+# Step 2: Copy package.json and install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copier le reste des fichiers du projet Angular
-COPY src/ ./
+# Step 3: Copy the rest of the Angular project files
+COPY . .
 
-# Construire l'application Angular (mode production)
+# Step 4: Build the Angular project
 RUN npm run build --prod
+
+# Step 5: Use Nginx to serve the Angular app
+FROM nginx:alpine
+
+# Copy the build artifacts from the previous stage to Nginx's public folder
+COPY --from=build /app/dist/ /usr/share/nginx/html
+
+# Expose the port on which Nginx is running
+EXPOSE 80
+
+# Start Nginx when the container starts
+CMD ["nginx", "-g", "daemon off;"]
