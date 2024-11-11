@@ -1,0 +1,40 @@
+<div class="container">
+  <h2>Ajouter une Université</h2>
+  <form (ngSubmit)="addUniversite()" class="universite-form" #form="ngForm">
+    
+    <!-- University Name Field with Icon and Validation -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom de l'Université</mat-label>
+      <input
+        matInput
+        [(ngModel)]="universite.nomUniversite"
+        name="nomUniversite"
+        #nomUniversite="ngModel"
+        required
+      />
+      <mat-error *ngIf="nomUniversite.invalid && nomUniversite.touched">
+        Ce champ est requis
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Address Field with Icon and Validation -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Adresse</mat-label>
+      <input
+        matInput
+        [(ngModel)]="universite.adresse"
+        name="adresse"
+        #adresse="ngModel"
+        required
+      />
+      <mat-error *ngIf="adresse.invalid && adresse.touched">
+        Ce champ est requis
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Submit Button with Styling -->
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Ajouter</button>
+    </div>
+  </form>
+</div>
