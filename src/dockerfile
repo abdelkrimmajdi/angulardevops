@@ -3,20 +3,24 @@ FROM node:16 AS build
 
 WORKDIR /app
 
-# Copier le package.json et installer les dépendances
-COPY package*.json ./
+# Copier package.json et package-lock.json pour installer les dépendances
+COPY angular/package*.json ./
 RUN npm install
 
-# Copier le reste des fichiers du projet Angular
-COPY . .
+# Copier tout le reste des fichiers du projet Angular
+COPY angular/ ./
 
 # Construire l'application Angular (mode production)
 RUN npm run build --prod
 
 # Étape 2: Utilisation de Nginx pour servir l'application
 FROM nginx:alpine
+
+# Copier l'application construite depuis l'étape de build
 COPY --from=build /app/dist/your-angular-app /usr/share/nginx/html
 
-# Exposer le port 80
+# Exposer le port 80 pour accéder à l'application via Nginx
 EXPOSE 80
+
+# Lancer Nginx en mode non détaché
 CMD ["nginx", "-g", "daemon off;"]

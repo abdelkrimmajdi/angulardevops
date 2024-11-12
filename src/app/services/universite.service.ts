@@ -7,7 +7,7 @@ import { Universite } from 'src/model/universite.model'; // Le modèle Universit
   providedIn: 'root',
 })
 export class UniversiteService {
-  private apiUrl = 'http://localhost:8082/tpFoyer17/api/univeristes';
+  private apiUrl = 'http://192.168.100.9:8082/tpFoyer17/api/univeristes';
 
   constructor(private http: HttpClient) {}
 
