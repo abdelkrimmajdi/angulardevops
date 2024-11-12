@@ -1,28 +1,17 @@
-# Stage 1: Build the Angular application
-FROM node:14 AS build
+FROM node:14
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+RUN npm install -g @angular/cli@12
+
 COPY package*.json ./
 
-# Install dependencies
 RUN npm install
 
-# Copy all files to the container
 COPY . .
 
-# Build the Angular application
-RUN npm run build --prod
+RUN ng build 
 
-# Stage 2: Serve the application using Nginx
-FROM nginx:alpine
+EXPOSE 4200
 
-# Copy the built Angular app to the Nginx html directory
-COPY --from=build /app/dist/your-angular-app-name /usr/share/nginx/html
-
-# Expose port 80
-EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--port", "4200", "--disable-host-check"]

@@ -1,7 +1,9 @@
-version: '3'
-services:
-  angular-app:
-    image: majdi01/angular-app:latest
-    ports:
-      - "80:80"
-    restart: always
+ version: '3.8'
+ services:
+   app:
+     build: .
+     image: majdi01/foyerfront
+   restart: on-failure
+     container_name: frontcont
+     ports:
+      - 4200:4200
